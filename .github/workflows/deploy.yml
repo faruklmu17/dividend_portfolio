@@ -1,34 +1,40 @@
-name: Deploy Flask App to GitHub Pages
+name: Deploy Python App to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Change this to the branch you're deploying from
+      - main  # Trigger deployment on push to the main branch
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'  # Specify your Python version
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'  # Specify the Python version you're using
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Install the dependencies from requirements.txt
 
-    - name: Freeze Flask App
-      run: |
-        python freeze.py
+      - name: Run the Python script (if applicable)
+        run: |
+          python your_script.py  # Replace with the actual script you want to run, if any
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+      - name: Build the application (if needed)
+        run: |
+          # Add any build steps if needed (e.g., generating assets, compiling files)
+          echo "Build step (if any) goes here"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_access_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages  # The target branch for GitHub Pages
+          folder: build  # The folder where your built assets are located (adjust if needed)

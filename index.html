@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Investment Portfolio</title>
+</head>
+<body>
+    <h1>Investment Portfolio Performance</h1>
+
+    <div class="container">
+        <!-- Display the pie chart -->
+        <div>
+            <h2>Asset Allocation</h2>
+            <img src="{{ url_for('static', filename='pie_chart.png') }}" alt="Asset Allocation Pie Chart">
+        </div>
+
+        <!-- Display the total annual dividend -->
+        <div>
+            <h3>Total Annual Dividend: ${{ total_annual_dividend | round(2) }}</h3>
+        </div>
+
+        <!-- Display the portfolio table -->
+        <div>
+            <table id="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Shares</th>
+                        <th>Purchase Price</th>
+                        <th>Current Price</th>
+                        <th>Dividend Yield (%)</th>
+                        <th>Performance (%)</th>
+                        <th>Annual Dividend ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in data %}
+                    <tr>
+                        <td>{{ asset['Stock'] }}</td>
+                        <td>{{ asset['Shares'] }}</td>
+                        <td>{{ asset['Purchase Price'] }}</td>
+                        <td>{{ asset['Current Price'] }}</td>
+                        <td>{{ asset['Dividend Yield (%)'] }}</td>
+                        <td>{{ asset['Performance'] }}</td>
+                        <td>{{ asset['Annual Dividend'] | round(2) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
